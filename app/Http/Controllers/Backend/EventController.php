@@ -168,7 +168,7 @@ class EventController extends Controller
             $row->registration_status_name = $rowData["registrationStatus"]->name;
             $row->user_name = $rowData["user"]->first_name. ' ' .$rowData["user"]->last_name;
             $row->user_email = $rowData["user"]->email;
-            $row->created_at = $rowData->created_at;
+            $row->created_at = date($rowData->created_at);
             $row->allowed = ($rowData->allowed==1)?'<i class="icon-check">':'';
             $data['data'][] = $row;
        }
