@@ -1,0 +1,6 @@
+#datatable_video .thumbnail {
+  max-width: 80px;
+  min-width: 50px;
+  min-height: 30px;
+  margin-bottom: 0;
+}

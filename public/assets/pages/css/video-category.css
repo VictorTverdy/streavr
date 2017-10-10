@@ -1,0 +1,9 @@
+#datatable_category .thumbnail {
+  max-width: 80px;
+  min-width: 50px;
+  min-height: 30px;
+  margin-bottom: 0;
+}
+#datatable_category #row_1 .delete-butt {
+  display: none;
+}
