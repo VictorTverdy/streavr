@@ -53,6 +53,7 @@
 <!-- END PAGE HEADER-->
 <form id="form_video" action="" method="post" enctype="multipart/form-data">
     {{ csrf_field() }}
+    <input type="hidden" id="event_id" value="{{ $event->id }}">
     <div class="row">
         <div class="col-md-12">
             <table class="table table-striped table-bordered table-hover" id="datatable_attendees">

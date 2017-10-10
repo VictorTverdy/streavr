@@ -1,13 +1,10 @@
-/**
- * Created by Administrator on 8/08/2017.
- */
 var AttendeesClass = function () {
     var eventGrid = function() {
         $.fn.dataTableExt.oStdClasses.sFilterInput = "form-control input-xs input-sm input-inline";
 
         var table = $("#datatable_attendees").DataTable({
             ajax: {
-                url: '/event/get_attendees/1',
+                url: '/event/get_attendees/'+$("#event_id").val(),
                 dataType: 'json',
                 method: 'GET',
                 data: {}
