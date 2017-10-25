@@ -48,4 +48,5 @@ Route::post('video/remove_favorite', 'Api\VideoController@removeFavorite');
 Route::get('event/get_events', 'Api\EventController@getEvents');
 Route::get('event/get_attendee', 'Api\EventController@getEventUserAttendee');
 Route::post('event/add_attendee', 'Api\EventController@addAttendee');
+Route::post('event/add_stripe_payment', 'Api\EventController@addStripePayment');
 
