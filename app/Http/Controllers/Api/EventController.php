@@ -222,4 +222,38 @@ class EventController extends Controller
 
         return response()->json($data);
     }
+
+    public function delStripePayment(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'attendee_id' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return $validator->errors()->all();
+        }
+
+        $attendee_id = Input::get('attendee_id');
+
+        $attendee = Attendee::where('id', $attendee_id)->first();
+        if (!$attendee) {
+            $data = ['error' => 'Can\'t find attendee'];
+
+            return response()->json($data);
+        }
+        $attendee->allowed = 0;
+        $attendee->payment_status_id = 1;
+        $attendee->payment_method_id = 1;
+        $attendee->payment_source_id = 1;
+        $attendee->registration_status_id = 3;
+        if ($attendee->save()) {
+            $data = ['success' => 'yes'];
+        } else {
+            $data = ['error' => 'Can\'t delete attendee payment'];
+        }
+
+        return response()->json($data);
+
+    }
 }
