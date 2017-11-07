@@ -22,7 +22,7 @@ class EventController extends Controller
     {
         $data = [];
 
-        $events = Event::get();
+        $events = Event::where('is_active', '=', 1)->get();
         $data['data'] = $events;
 
         return response()->json($events);
