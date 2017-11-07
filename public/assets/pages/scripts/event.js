@@ -37,14 +37,18 @@ var EventClass = function () {
 
                 },
                 {
+                    data: 'active'
+                },                {
                     data: 'created_at'
                 },
                 {
                     data: null,
                     searchable: false,
-                    width: 110,
+                    width: 150,
                     defaultContent: '<a href="javascript:;" class="btn btn-xs blue edit-butt"><i class="fa fa-edit"></i> Edit</a>' +
-                    '<a href="javascript:;" class="btn btn-xs red delete-butt"><i class="fa fa-trash"></i> Delete</a><br><br>' +
+                        '<a href="javascript:;" class="btn btn-xs red delete-butt"><i class="fa fa-trash"></i> Delete</a>' +
+                        '<a href="javascript:;" class="btn btn-xs blue active-butt"><i class="fa fa-edit"></i>Activate</a>' +
+                        '<a href="javascript:;" class="btn btn-xs blue inactive-butt"><i class="fa fa-edit"></i>Inactivate</a>' +
                         '<a href="javascript:;" class="btn btn-xs blue attendees-butt"><i class="fa fa-edit"></i> Attendees</a>'
                 }
             ],
@@ -66,6 +70,52 @@ var EventClass = function () {
                 $.ajax({
                     method: "POST",
                     url: "/event/delete/" + id,
+                    data: { '_token': $('#form_video input[name="_token"]').val() },
+                    cache: false,
+                    success: function(data, textStatus, jqXHR){
+                        // console.log('success', data, textStatus, jqXHR);
+                        table.ajax.reload();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        // console.log('error', jqXHR, textStatus, errorThrown);
+                        alert('Sorry! Occurred some error. Please retry again.');
+                        table.ajax.reload();
+                    }
+                });
+            }
+        });
+
+        // Click "Active" button
+        $('#datatable_event tbody').on('click', '.active-butt', function() {
+            if( confirm('Are you sure you want to activate selected item?') ) {
+                var id = table.row($(this).parents('tr')).data().id;
+                // table.row($(this).parents('tr')).remove().draw();
+                $.ajax({
+                    method: "POST",
+                    data: { '_token': $('#form_video input[name="_token"]').val() },
+                    cache: false,
+                    url: "/event/activate/" + id,
+                    success: function(data, textStatus, jqXHR){
+                        // console.log('success', data, textStatus, jqXHR);
+                        table.ajax.reload();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        // console.log('error', jqXHR, textStatus, errorThrown);
+                        alert('Sorry! Occurred some error. Please retry again.');
+                        table.ajax.reload();
+                    }
+                });
+            }
+        });
+
+        // Click "Inactive" button
+        $('#datatable_event tbody').on('click', '.inactive-butt', function() {
+            if( confirm('Are you sure you want to inactivate selected item?') ) {
+                var id = table.row($(this).parents('tr')).data().id;
+                // table.row($(this).parents('tr')).remove().draw();
+                $.ajax({
+                    method: "POST",
+                    url: "/event/inactivate/" + id,
                     data: { '_token': $('#form_video input[name="_token"]').val() },
                     cache: false,
                     success: function(data, textStatus, jqXHR){

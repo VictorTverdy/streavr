@@ -52,6 +52,7 @@
                         <th>Price</th>
                         <th>Time start</th>
                         <th>Time length</th>
+                        <th>Active</th>
                         <th>Created Date</th>
                         <th>&nbsp;</th>
                     </tr>

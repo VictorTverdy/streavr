@@ -36,6 +36,8 @@ class EventController extends Controller
             if ($row->thumbnail_url) {
                 $row->thumbnail = '<img class="thumbnail" src="'. $row->thumbnail_url .'" />';
             }
+            $row->active = ($row->is_active == 1) ? 'yes' : 'no';
+
 
         }
         $data['data'] = $rows;
@@ -173,6 +175,40 @@ class EventController extends Controller
             $data['data'][] = $row;
        }
 
+
+        return response()->json($data);
+    }
+
+    /**
+     * Activate event
+     */
+    public function activateEvent(Request $request, $id) {
+
+        Event::where('is_active', '=', 1)->update(['is_active' => 0]);
+
+        $event = Event::find($id);
+        $event->is_active = 1;
+        if ($event->save()) {
+            $data = ['result' => 1];
+        } else {
+            $data = ['result' => 0];
+        }
+
+        return response()->json($data);
+    }
+
+    /**
+     * Inactivate event
+     */
+    public function inactivateEvent(Request $request, $id) {
+
+        $event = Event::find($id);
+        $event->is_active = 0;
+        if ($event->save()) {
+            $data = ['result' => 1];
+        } else {
+            $data = ['result' => 0];
+        }
 
         return response()->json($data);
     }

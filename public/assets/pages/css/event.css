@@ -4,3 +4,7 @@
     min-height: 30px;
     margin-bottom: 0;
 }
+
+.table .btn {
+    margin-top: 3px !important;
+}

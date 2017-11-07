@@ -59,6 +59,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('event/get_events', 'Backend\EventController@getEvents');
     Route::get('event/attendees/{id}', 'Backend\EventController@attendeesEvent')->where('id', '[0-9]+');
     Route::get('event/get_attendees/{id}', 'Backend\EventController@getAttendees')->where('id', '[0-9]+');
+    Route::post('event/activate/{id}', 'Backend\EventController@activateEvent')->where('id', '[0-9]+');
+    Route::post('event/inactivate/{id}', 'Backend\EventController@inactivateEvent')->where('id', '[0-9]+');
 
 });
 
