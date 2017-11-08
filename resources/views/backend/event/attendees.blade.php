@@ -67,6 +67,7 @@
                     <th>Payment Method</th>
                     <th>Source</th>
                     <th>Registration Status</th>
+                    <th>Ticket</th>
                     <th>Adding Date </th>
                 </tr>
                 </thead>

@@ -35,6 +35,9 @@ var AttendeesClass = function () {
                     data: 'registration_status_name'
                 },
                 {
+                    data: 'ticket'
+                },
+                {
                     data: 'created_at'
                 }
 

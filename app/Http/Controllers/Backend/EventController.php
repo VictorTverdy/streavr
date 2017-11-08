@@ -172,6 +172,7 @@ class EventController extends Controller
             $row->user_email = $rowData["user"]->email;
             $row->created_at = date($rowData->created_at);
             $row->allowed = ($rowData->allowed==1)?'<i class="icon-check">':'';
+            $row->ticket = ($rowData->payment_status_id == 3) ? '<a href ="/attendee/ticket/'.$rowData->id.'" target="_blank">Print</a>' : '';
             $data['data'][] = $row;
        }
 
