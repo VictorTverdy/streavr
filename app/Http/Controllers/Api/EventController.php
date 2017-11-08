@@ -12,6 +12,8 @@ use Stripe\Error as StripeError;
 use Stripe\Charge;
 use Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class EventController extends Controller
 {
@@ -59,6 +61,8 @@ class EventController extends Controller
             $attendee->payment_method_id = 1;
             $attendee->payment_source_id = 1;
             $attendee->registration_status_id = 3;
+            $attendee->qr_code = Crypt::encryptString($event_id. '_'.$user_id);
+
             if ($attendee->save()) {
                 $data = ['success' => 'yes'];
             } else {
@@ -251,6 +255,43 @@ class EventController extends Controller
             $data = ['success' => 'yes'];
         } else {
             $data = ['error' => 'Can\'t delete attendee payment'];
+        }
+
+        return response()->json($data);
+    }
+
+    public function checkCode(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'code' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return $validator->errors()->all();
+        }
+
+        $code = Input::get('code');
+        try {
+            $code = Crypt::decryptString($code);
+        } catch (DecryptException $e) {
+            $data = ['error' => 'Can\'t decrypt code'];
+        }
+        if ($pos = strpos($code,"_")) {
+            $event_id = substr($code,0, $pos);
+            $user_id= substr($code,$pos+1, strlen($code)-$pos -1);
+
+            $attendee = Attendee::where('event_id', $event_id)
+                ->where('user_id', $user_id)
+                ->where('payment_status_id', 3)
+                ->first();
+
+            if (!$attendee) {
+                $data = ['error' => 'Can\'t find code or payment status invalid'];
+
+                return response()->json($data);
+            }
+
+            $data = ['success' => 'yes'];
         }
 
         return response()->json($data);

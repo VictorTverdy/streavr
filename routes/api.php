@@ -50,4 +50,5 @@ Route::get('event/get_attendee', 'Api\EventController@getEventUserAttendee');
 Route::post('event/add_attendee', 'Api\EventController@addAttendee');
 Route::post('event/add_stripe_payment', 'Api\EventController@addStripePayment');
 Route::post('event/del_stripe_payment', 'Api\EventController@delStripePayment');
+Route::post('event/check_code', 'Api\EventController@checkCode');
 
