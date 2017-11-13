@@ -23,6 +23,12 @@ var EventClass = function () {
                     data: 'name'
                 },
                 {
+                    data: 'title'
+                },
+                {
+                    data: 'subtitle'
+                },
+                {
                     data: 'price'
                 },
                 {

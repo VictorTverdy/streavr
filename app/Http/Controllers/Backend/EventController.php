@@ -91,6 +91,8 @@ class EventController extends Controller
         }
 
         $eventClass->name = Input::get('name');
+        $eventClass->title = Input::get('title');
+        $eventClass->subtitle = Input::get('subtitle');
         $eventClass->description = Input::get('description');
         $eventClass->time_start = Input::get('time_start');
         $eventClass->time_length = Input::get('time_length');

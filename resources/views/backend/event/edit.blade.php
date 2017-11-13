@@ -83,6 +83,14 @@ $auth_user = \Illuminate\Support\Facades\Auth::user();
                                     <input type="text" name="name" class="form-control" value="{{ $event->name }}" />
                                 </div>
                                 <div class="form-group">
+                                    <label class="control-label">Title</label>
+                                    <input type="text" name="title" class="form-control" value="{{ $event->title }}" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Subtitle</label>
+                                    <input type="text" name="subtitle" class="form-control" value="{{ $event->subtitle }}" />
+                                </div>
+                                <div class="form-group">
                                     <label class="control-label">Description</label>
                                     <textarea name="description" class="form-control" rows="5">{{ $event->description }}</textarea>
                                 </div>

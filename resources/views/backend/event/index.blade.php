@@ -49,6 +49,8 @@
                     <tr role="row" class="heading">
                         <th>Thumbnail</th>
                         <th>Name</th>
+                        <th>Title</th>
+                        <th>Subtitle</th>
                         <th>Price</th>
                         <th>Time start</th>
                         <th>Time length</th>
