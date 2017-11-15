@@ -29,6 +29,11 @@ class SidebarMenu extends Model {
             $url = substr($url, 0, $pos + 6) . '{id}';
         }
 
+        $pos = strpos($url, '/attendees');
+        if( $pos !== false ) {
+            $url = substr($url, 0, $pos + 11) . '{id}';
+        }
+
         for($i = 0; $i < count($menus); $i++) {
             if($this->found_flag)
                 break;

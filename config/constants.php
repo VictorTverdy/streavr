@@ -78,7 +78,26 @@ return [
                     'icon' => '',
                     'hidden' => 0,
                     'user_level' => [1, 2],
-                    'children' => []
+                    'children' => [
+                        [
+                            'id' => 'event_edit',
+                            'name' => 'Edit Event',
+                            'url' => '/event/edit/{id}',
+                            'icon' => '',
+                            'hidden' => 1,
+                            'user_level' => [1],
+                            'children' => []
+                        ],
+                        [
+                            'id' => 'event_attendees',
+                            'name' => 'Event Attendees',
+                            'url' => '/event/attendees/{id}',
+                            'icon' => '',
+                            'hidden' => 1,
+                            'user_level' => [1],
+                            'children' => []
+                        ],
+                    ]
                 ], [
                     'id' => 'event_add',
                     'name' => 'Add Event',
