@@ -84,14 +84,17 @@ class VideoController extends Controller {
     public function saveVideo(Request $request) {
         $user = Auth::user();
 
-        $validator = Validator::make($request->all(), [
+        $fields = [
             'name' => 'required',
             'category' => 'required',
             'video_path' => 'required',
             'video_name' => 'required',
             'video_size' => 'required',
-            'thumbnail' => 'required',
-       ]);
+        ];
+        if (Input::get('form_action')=="add") {
+            $fields["thumbnail"] = 'required';
+        }
+        $validator = Validator::make($request->all(), $fields);
 
 
         if ($validator->fails()) {

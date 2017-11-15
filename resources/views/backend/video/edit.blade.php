@@ -136,6 +136,7 @@ $auth_user = \Illuminate\Support\Facades\Auth::user();
                             <input type="hidden" name="id" id="video_id" value="{{ $video->id }}" />
                             <input type="hidden" name="video_path" id="video_path" />
                             <input type="hidden" name="video_name" id="video_name" />
+                            <input type="hidden" name="form_action" value="edit" />
                             <input type="hidden" name="video_size" id="video_size" value="{{ $video->video_size }}" />
                         </form>
                         <form id="form_video_upload" action="/video/upload" method="post" enctype="multipart/form-data">

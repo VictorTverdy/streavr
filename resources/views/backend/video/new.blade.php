@@ -132,6 +132,7 @@ $auth_user = \Illuminate\Support\Facades\Auth::user();
                             <input type="hidden" name="video_path" id="video_path" />
                             <input type="hidden" name="video_name" id="video_name" />
                             <input type="hidden" name="video_size" id="video_size" />
+                            <input type="hidden" name="form_action" value="add" />
                         </form>
                         <form id="form_video_upload" action="/video/upload" method="post" enctype="multipart/form-data">
                             {{ csrf_field() }}
