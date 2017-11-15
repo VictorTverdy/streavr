@@ -36,8 +36,8 @@ class EventController extends Controller
     public function addAttendee(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'event_id' => 'required',
-            'user_id' => 'required',
+            'event_id' => 'required|numeric|min:1',
+            'user_id' => 'required|numeric|min:1',
         ]);
 
         if ($validator->fails()) {
@@ -79,8 +79,8 @@ class EventController extends Controller
     public function getEventUserAttendee(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'event_id' => 'required',
-            'user_id' => 'required',
+            'event_id' => 'required|numeric|min:1',
+            'user_id' => 'required|numeric|min:1',
         ]);
 
         if ($validator->fails()) {
@@ -104,7 +104,7 @@ class EventController extends Controller
             'exp_month' => 'required',
             'exp_year' => 'required',
             'cvc' => 'required',
-            'attendee_id' => 'required',
+            'attendee_id' => 'required|numeric|min:1',
             'amount' => 'required'
         ]);
 
