@@ -47,6 +47,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('user/edit/{id}', 'Backend\UserController@editUser')->where('id', '[0-9]+');
     Route::post('user/delete/{id}', 'Backend\UserController@deleteUser')->where('id', '[0-9]+');
     Route::get('user/profile', 'Backend\UserController@userProfile');
+    Route::get('user/attending/{id}', 'Backend\UserController@attendingUser')->where('id', '[0-9]+');
 
     /**
      * Event

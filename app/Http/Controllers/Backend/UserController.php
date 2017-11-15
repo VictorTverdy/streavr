@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
+use App\Models\Backend\Attendee;
 
 class UserController extends Controller {
     /**
@@ -70,6 +71,7 @@ class UserController extends Controller {
             $row->name = $row->first_name .' '. $row->last_name;
             $row->enable = $row->enable ? '<span class="label label-sm label-success"> Enabled </span>' : '<span class="label label-sm label-danger"> Disabled </span>';
             $row->role = ($row->user_level == 1) ? ' Administrator ' : ' User ';
+            $row->attendee ='<a href="/user/attending/'.$row->id.'" class="btn btn-xs blue ">View</a>';
         }
         $data['data'] = $rows;
 
@@ -112,6 +114,24 @@ class UserController extends Controller {
         $user = User::find($id);
 
         return view('backend.user.profile', ['user' => $user]);
+    }
+
+    /**
+     * User attendees
+     */
+    public function attendingUser($id) {
+        // Get user
+        $user = User::find($id);
+
+        $attendees = Attendee::with('paymentStatus','paymentSource', 'paymentMethod','registrationStatus','event')
+            ->where(['user_id' => $id])
+            ->get()
+            ->sortByDesc('event.time_start');
+
+        return view('backend.user.attending', [
+            'user' => $user,
+            'attendees' => $attendees
+        ]);
     }
 
 }

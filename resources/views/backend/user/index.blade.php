@@ -52,6 +52,7 @@
                         <th>Email</th>
                         <th>Role</th>
                         <th>Enable</th>
+                        <th>Events Attending</th>
                         <th>&nbsp;</th>
                     </tr>
                     </thead>

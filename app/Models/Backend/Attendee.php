@@ -33,7 +33,15 @@ class Attendee extends Model {
     {
         return $this->belongsTo('App\Models\Backend\RegistrationStatus');
     }
+
     public function user()
     {
         return $this->belongsTo('App\Models\User');
-    }}
+    }
+
+    public function event()
+    {
+        return $this->belongsTo('App\Models\Backend\Event');
+    }
+
+}

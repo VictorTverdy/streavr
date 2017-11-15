@@ -42,10 +42,16 @@ var UserClass = function () {
                     width: 80
                 },
                 {
+                    data: 'attendee',
+                    className: 'text-align-center',
+                    width: 120
+                },
+                {
                     data: null,
                     searchable: false,
                     defaultContent: '<a href="javascript:;" class="btn btn-xs blue edit-butt"><i class="fa fa-edit"></i> Edit</a><a href="javascript:;" class="btn btn-xs red delete-butt"><i class="fa fa-trash"></i> Delete</a>'
                 }
+
             ],
             autoWidth: false,
             paging: false,
