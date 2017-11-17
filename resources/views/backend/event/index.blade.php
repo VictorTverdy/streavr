@@ -48,6 +48,7 @@
                     <thead>
                     <tr role="row" class="heading">
                         <th>Thumbnail</th>
+                        <th>Background</th>
                         <th>Name</th>
                         <th>Title</th>
                         <th>Subtitle</th>

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager as Image;
 use App\Models\Backend\Attendee;
 use phpDocumentor\Reflection\Types\Object_;
+use Validator;
 
 class EventController extends Controller
 {
@@ -35,6 +36,13 @@ class EventController extends Controller
             $row->DT_RowData = ['id' => $row->id];
             if ($row->thumbnail_url) {
                 $row->thumbnail = '<img class="thumbnail" src="'. $row->thumbnail_url .'" />';
+            } else {
+                $row->thumbnail = '';
+            }
+            if ($row->background_img_url) {
+                $row->background_img = '<img class="thumbnail" src="'. $row->background_img_url .'" />';
+            } else {
+                $row->background_img ='';
             }
             $row->active = ($row->is_active == 1) ? 'yes' : 'no';
 
@@ -90,6 +98,25 @@ class EventController extends Controller
 
         }
 
+        $fields = [
+            'name' => 'required',
+            'title' => 'required',
+            'subtitle' => 'required',
+            'description' => 'required',
+            'time_start' => 'required',
+            'time_length' => 'required',
+            'price' => 'required',
+        ];
+        if (Input::get('form_action')=="add") {
+            $fields["thumbnail"] = 'required';
+            $fields["background_img"] = 'required';
+        }
+        $validator = Validator::make($request->all(), $fields);
+
+        if ($validator->fails()) {
+            return $validator->errors()->all();
+        }
+
         $eventClass->name = Input::get('name');
         $eventClass->title = Input::get('title');
         $eventClass->subtitle = Input::get('subtitle');
@@ -131,6 +158,42 @@ class EventController extends Controller
             $url = Storage::disk('s3')->url($path);
             $eventClass->thumbnail_url = $url;
         }
+
+        if ($request->file('background_img')) {
+
+            $img = new Image();
+            $img->make($request->file('background_img')->path());
+            $img = $img->make($request->file('background_img')->path());
+            $maxLength = 1000;
+            $imageWidth = $img->width();
+            $imageHeight = $img->height();
+            $ext = $request->file('background_img')->extension();
+
+            if (($imageHeight>$maxLength) || ($imageWidth>$maxLength)) {
+                if ($imageWidth >= $imageHeight) {
+                    $koef = $imageWidth / $maxLength;
+                    $newHeight = ceil($imageHeight / $koef);
+                    $newWidth = $maxLength;
+                } else {
+                    $koef = $imageHeight / $maxLength;
+                    $newWidth = ceil($imageWidth / $koef);
+                    $newHeight = $maxLength;
+                }
+                $img = $img->resize($newWidth, $newHeight)->encode($ext);
+                $img = $img->__toString();
+                $fileName = md5($request->file('background_img')->getClientOriginalName()).'.'.$ext;
+                Storage::disk('s3')->put('event_background/'.$fileName, $img);
+                $path = 'event_background/'.$fileName;
+            } else {
+                $path = Storage::disk('s3')->putFile('event_background', $request->file('background_img'), 'public');
+            }
+
+            $eventClass->background_img = $path;
+            $url = Storage::disk('s3')->url($path);
+            $eventClass->background_img_url = $url;
+        }
+
+
         $eventClass->save();
 
         return redirect('events');

@@ -20,6 +20,12 @@ var EventClass = function () {
                     className: 'reorder'
                 },
                 {
+                    data: 'background_img',
+                    width: 80,
+                    searchable: false,
+                    className: 'reorder'
+                },
+                {
                     data: 'name'
                 },
                 {

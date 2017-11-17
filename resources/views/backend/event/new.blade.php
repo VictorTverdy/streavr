@@ -123,9 +123,25 @@ $auth_user = \Illuminate\Support\Facades\Auth::user();
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="form-group">
+                                <label class="control-label" style="display: block;">Event background</label>
+                                <div class="fileinput fileinput-new" data-provides="fileinput">
+                                    <div class="fileinput-new background_img" style="max-width: 250px;">
+                                        <img src="" alt="" /> </div>
+                                    <div class="fileinput-preview fileinput-exists background_img" style="max-width: 250px;"> </div>
+                                    <div>
+                                        <span class="btn default btn-file">
+                                            <span class="fileinput-new"> Select image </span>
+                                            <span class="fileinput-exists"> Change </span>
+                                            <input type="file" name="background_img" />
+                                        </span>
+                                        <a href="javascript:;" class="btn default fileinput-exists" data-dismiss="fileinput"> Remove </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <input type="hidden" name="form_action" value="add" />
                     <div class="form-actions">
                         <div class="margin-top-10">
                             <button type="submit" id="save_event_butt" class="btn blue-steel">Save Event</button>
