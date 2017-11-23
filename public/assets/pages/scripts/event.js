@@ -56,12 +56,13 @@ var EventClass = function () {
                 {
                     data: null,
                     searchable: false,
-                    width: 150,
+                    width: 170,
                     defaultContent: '<a href="javascript:;" class="btn btn-xs blue edit-butt"><i class="fa fa-edit"></i> Edit</a>' +
                         '<a href="javascript:;" class="btn btn-xs red delete-butt"><i class="fa fa-trash"></i> Delete</a>' +
                         '<a href="javascript:;" class="btn btn-xs blue active-butt"><i class="fa fa-edit"></i>Activate</a>' +
                         '<a href="javascript:;" class="btn btn-xs blue inactive-butt"><i class="fa fa-edit"></i>Inactivate</a>' +
-                        '<a href="javascript:;" class="btn btn-xs blue attendees-butt"><i class="fa fa-edit"></i> Attendees</a>'
+                        '<a href="javascript:;" class="btn btn-xs blue attendees-butt"><i class="fa fa-edit"></i> Attendees</a>' +
+                        '<a href="javascript:;" class="btn btn-xs blue qr-codes-butt" target="_blank"><i class="fa fa-edit"></i> QR codes</a>'
                 }
             ],
             autoWidth: false,
@@ -71,6 +72,7 @@ var EventClass = function () {
                 // $(row).attr('data-id', data.DT_RowData.id);
                 $(row).find('.edit-butt').attr('href', "/event/edit/" + data.DT_RowData.id)
                 $(row).find('.attendees-butt').attr('href', "/event/attendees/" + data.DT_RowData.id)
+                $(row).find('.qr-codes-butt').attr('href', "/event/qr-codes/" + data.DT_RowData.id)
             }
         });
 

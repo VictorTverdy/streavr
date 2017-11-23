@@ -3,12 +3,15 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Backend\Event;
+use App\Models\Backend\QrCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager as Image;
 use App\Models\Backend\Attendee;
 use phpDocumentor\Reflection\Types\Object_;
+use Illuminate\Support\Facades\Crypt;
+
 use Validator;
 
 class EventController extends Controller
@@ -277,6 +280,13 @@ class EventController extends Controller
         }
 
         return response()->json($data);
+    }
+
+    public function qrCodes( $id ) {
+
+        $codes = QrCode::where(['event_id' => $id])->get();
+
+        return view('backend.event.qr-codes', ['codes' => $codes]);
     }
 
 }
