@@ -3,6 +3,21 @@ namespace App\Models\Backend;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * This is the model class for table "attendees".
+ *
+ * The followings are the available columns in table 'attendees':
+ * @property integer $id
+ * @property integer $user_id
+ * @property integer $event_id
+ * @property integer $payment_status_id
+ * @property integer $payment_method_id
+ * @property integer $payment_source_id
+ * @property integer $registration_status_id
+ * @property integer $allowed
+ * @property integer $qr_code_id
+ */
+
 class Attendee extends Model {
     /**
      * @var string

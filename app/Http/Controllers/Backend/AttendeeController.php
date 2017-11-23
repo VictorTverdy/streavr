@@ -2,7 +2,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Backend\Attendee;
+use App\Models\Backend\QrCode;
 
 class AttendeeController extends Controller
 {
@@ -11,13 +11,10 @@ class AttendeeController extends Controller
      */
     public function attendeeTicket($id) {
 
-        $attendee = Attendee::where([
-            'id' => $id,
-            'payment_status_id' => 3
-        ])->first();
+        $qrCode = QrCode::where(['id' => $id])->first();
 
-        if (!is_null($attendee)) {
-            return view('backend.attendee.ticket', ['attendee' => $attendee]);
+        if (!is_null($qrCode)) {
+            return view('backend.attendee.ticket', ['qrCode' => $qrCode]);
         } else {
             abort(404, 'Ticket not found');
         }

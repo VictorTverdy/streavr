@@ -14,6 +14,7 @@ use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
+use App\Models\Backend\QrCode;
 
 class EventController extends Controller
 {
@@ -61,7 +62,7 @@ class EventController extends Controller
             $attendee->payment_method_id = 1;
             $attendee->payment_source_id = 1;
             $attendee->registration_status_id = 3;
-            $attendee->qr_code = Crypt::encryptString($event_id. '_'.$user_id);
+            //$attendee->qr_code = Crypt::encryptString($event_id. '_'.$user_id);
 
             if ($attendee->save()) {
                 $data = ['success' => 'yes'];
@@ -211,18 +212,30 @@ class EventController extends Controller
             return response()->json($data);
         }
 
+        $qrCode = new QrCode();
+        $qrCode->event_id = $attendee->event_id;
+        $qrCode->key = mt_rand();
+        $qrCode->qr_code = Crypt::encryptString($attendee->event_id . '_' . $qrCode->key);
+        $qrCode->save();
+
+        if (!$qrCode->save()) {
+            $data = ['error' => 'Can\'t create Qr Code'];
+            return response()->json($data);
+        }
+
         $attendee = Attendee::where('id', $attendee_id)->first();
         $attendee->payment_status_id = 3;
         $attendee->payment_method_id = 2;
         $attendee->payment_source_id = 2;
         $attendee->registration_status_id = 2;
-        if (!$attendee->save()) {
+        $attendee->qr_code_id = $qrCode->id;
+
+
+        if ($attendee->save()) {
+            $data = ['success' => 'yes'];
+        } else {
             $data = ['error' => 'Can\'t change attendee status.'];
-
-            return response()->json($data);
         }
-
-        $data = ['success' => 'yes'];
 
         return response()->json($data);
     }
@@ -263,7 +276,9 @@ class EventController extends Controller
     public function checkCode(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'code' => 'required'
+            'code' => 'required',
+            'attendee_id' => 'required|numeric|min:1',
+
         ]);
 
         if ($validator->fails()) {
@@ -271,6 +286,8 @@ class EventController extends Controller
         }
 
         $code = Input::get('code');
+        $attendee_id = Input::get('attendee_id');
+
         try {
             $code = Crypt::decryptString($code);
         } catch (DecryptException $e) {
@@ -278,23 +295,36 @@ class EventController extends Controller
         }
         if ($pos = strpos($code,"_")) {
             $event_id = substr($code,0, $pos);
-            $user_id= substr($code,$pos+1, strlen($code)-$pos -1);
+            $key= substr($code,$pos+1, strlen($code)-$pos -1);
 
-            $attendee = Attendee::where('event_id', $event_id)
-                ->where('user_id', $user_id)
-                ->where('payment_status_id', 3)
+            $qrCode = QrCode::where('event_id', $event_id)
+                ->where('key', $key)
                 ->first();
 
-            if (!$attendee) {
-                $data = ['error' => 'Can\'t find code or payment status invalid'];
+            if (!$qrCode) {
+                $data = ['error' => 'Can\'t find QR Code'];
 
                 return response()->json($data);
+            }
+
+            $attendee = Attendee::where('id', $attendee_id)
+            ->whereNull('qr_code_id')->first();
+
+            if ($attendee) {
+                $attendee->qr_code_id = $qrCode->id;
+                $attendee->payment_method_id = 3;
+                $attendee->payment_status_id = 3;
+                $attendee->payment_source_id = 1;
+                if (!$attendee->save()) {
+                    $data = ['error' => 'Can\'t  save QR Code into Attendee.'];
+
+                    return response()->json($data);
+                }
             }
 
             $data = ['success' => 'yes'];
         }
 
         return response()->json($data);
-
     }
 }

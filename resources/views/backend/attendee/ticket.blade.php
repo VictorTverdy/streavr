@@ -1,3 +1,3 @@
 <?php
 
-    echo DNS2D::getBarcodeHTML($attendee->qr_code,'QRCODE',5,5);
+    echo DNS2D::getBarcodeHTML($qrCode->qr_code,'QRCODE',5,5);

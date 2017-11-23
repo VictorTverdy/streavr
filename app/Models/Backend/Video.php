@@ -8,6 +8,26 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
 use App\Models\S3;
 
+/**
+ * This is the model class for table "videos".
+ *
+ * The followings are the available columns in table 'videos':
+ * @property integer $id
+ * @property string $title
+ * @property string $description
+ * @property integer $user_id
+ * @property integer $category_id
+ * @property string $video_name
+ * @property integer $video_size
+ * @property string $thumbnail
+ * @property string $thumbnail_url
+ * @property string $video
+ * @property string $video_url
+ * @property integer $ordering
+ * @property string $complited_date
+ * @property integer $visibility
+ */
+
 class Video extends Model {
     /**
      * @var string
