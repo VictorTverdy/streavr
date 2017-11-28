@@ -1,6 +1,6 @@
 var DistributorClass = function () {
     var newDistributor = function () {
-        var form = $('#form_distributor_new');
+        var form = $('#form_distributor');
 
         form.validate({
             errorElement: 'span', //default input error message container

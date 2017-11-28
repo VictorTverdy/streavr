@@ -69,6 +69,43 @@ Route::middleware(['auth'])->group(function () {
      */
     Route::get('attendee/ticket/{id}', 'Backend\AttendeeController@attendeeTicket')->where('id', '[0-9]+');
 
+    /**
+     * Distributors
+     */
+    Route::get('distributors', 'Backend\DistributorController@index');
+    Route::get('distributor/new', 'Backend\DistributorController@newDistributor');
+    Route::get('distributor/edit/{id}', 'Backend\DistributorController@editDistributor')->where('id', '[0-9]+');
+    Route::post('distributor/save', 'Backend\DistributorController@saveDistributor');
+    Route::post('distributor/delete/{id}', 'Backend\DistributorController@deleteDistributor')->where('id', '[0-9]+');
+    Route::get('distributors/get_distributors', 'Backend\DistributorController@getDistributors');
+
+
+    /**
+     * Payment Methods
+     */
+    Route::get('settings/payment-methods', 'Backend\PaymentMethodController@index');
+
+    /**
+     * Payment Sources
+     */
+    Route::get('settings/payment-sources', 'Backend\PaymentSourceController@index');
+
+    /**
+     * Payment Statuses
+     */
+    Route::get('settings/payment-statuses', 'Backend\PaymentStatusController@index');
+
+    /**
+     * Registration Statuses
+     */
+    Route::get('settings/registration-statuses', 'Backend\RegistrationStatusController@index');
+    /**
+     * Email settings
+     */
+    Route::get('settings/email-template', 'Backend\SettingsController@email');
+    Route::post('settings/email-template/save', 'Backend\SettingsController@emailSave');
+
+
 
 });
 

@@ -1,7 +1,20 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vovan
- * Date: 28.11.17
- * Time: 10:52
- */
+
+namespace App\Http\Controllers\Backend;
+
+use App\Http\Controllers\Controller;
+use App\Models\Backend\PaymentSource;
+
+class PaymentSourceController extends Controller
+{
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index()
+    {
+        $sources = PaymentSource::get();
+        return view('backend.payment-source.index',[
+            'sources' =>$sources
+        ]);
+    }
+}
