@@ -16,7 +16,7 @@
 @endsection
 
 @section('page_level_js')
-    <script src="/assets/pages/scripts/user-edit.js" type="text/javascript"></script>
+    <script src="/assets/pages/scripts/email-template.js" type="text/javascript"></script>
 @endsection
 
 @section('content')
@@ -54,9 +54,23 @@
                 </div>
                 <div class="portlet-body">
                     <!-- BEGIN FORM-->
-                    <form action="/settings/email-template/save" id="form_user_edit" method="post" class="form-horizontal">
+                    <form action="/settings/email-template/save" id="form_template" method="post" class="form-horizontal">
                         {{ csrf_field() }}
                         <div class="form-body">
+                            <div class="form-group">
+                                <label class="control-label col-md-1">From (email)
+                                    <span class="required"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    <input type="text" name="email_from" class="form-control" value="{{ $template->from_email }}" /> </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-1">From (name)
+                                    <span class="required"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    <input type="text" name="name_from" class="form-control" value="{{ $template->from_name }}" /> </div>
+                            </div>
                             <div class="form-group">
                                 <label class="control-label col-md-1">Subject
                                     <span class="required"> * </span>

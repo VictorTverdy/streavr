@@ -177,7 +177,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Milon\Barcode\BarcodeServiceProvider::class,
-        Laracademy\ModelGenerator\ModelGeneratorServiceProvider::class
+        Laracademy\ModelGenerator\ModelGeneratorServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
     ],
 

@@ -63,6 +63,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('event/activate/{id}', 'Backend\EventController@activateEvent')->where('id', '[0-9]+');
     Route::post('event/inactivate/{id}', 'Backend\EventController@inactivateEvent')->where('id', '[0-9]+');
     Route::get('event/qr-codes/{id}', 'Backend\EventController@qrCodes')->where('id', '[0-9]+');
+    Route::get('event/generate-qr-codes-form/{id}', 'Backend\EventController@generateQRCodesForm')->where('id', '[0-9]+');
+    Route::post('event/generate-qr-codes/', 'Backend\EventController@generateQRCodes')->where('id', '[0-9]+');
+    Route::get('event/send-qr-codes/{id}', 'Backend\EventController@sendQRCodes')->where('id', '[0-9]+');
 
     /**
      * Attendee

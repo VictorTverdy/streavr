@@ -20,6 +20,8 @@ class SettingsController extends Controller
         if (count($template) == 0) {
 
             $template =  new \stdClass();
+            $template->email_from = '';
+            $template->name_from = '';
             $template->subject = '';
             $template->body = '';
             $template->id = '';
@@ -34,12 +36,16 @@ class SettingsController extends Controller
         $validator = Validator::make($request->all(), [
             'subject' => 'required',
             'body' => 'required',
+            'name_from' => 'required',
+            'email_from' => 'required',
         ]);
 
         if ($validator->fails()) {
             return $validator->errors()->all();
         }
 
+        $nameFrom = Input::get('name_from');
+        $emailFrom = Input::get('email_from');
         $subject = Input::get('subject');
         $body = Input::get('body');
         $id = Input::get('id');
@@ -52,6 +58,8 @@ class SettingsController extends Controller
 
         $template->subject = $subject;
         $template->body = $body;
+        $template->from_name = $nameFrom;
+        $template->from_email = $emailFrom;
         $template->save();
 
         \Session::flash('flash_message','Office successfully added.'); //<--FLASH MESSAGE

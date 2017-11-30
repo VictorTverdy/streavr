@@ -34,6 +34,17 @@ class SidebarMenu extends Model {
             $url = substr($url, 0, $pos + 11) . '{id}';
         }
 
+        $pos = strpos($url, '/qr-codes');
+        if( $pos !== false ) {
+            $url = substr($url, 0, $pos + 10) . '{id}';
+        }
+
+        $pos = strpos($url, '/generate-qr-codes-form');
+        if( $pos !== false ) {
+            $url = substr($url, 0, $pos + 24) . '{id}';
+        }
+
+
         for($i = 0; $i < count($menus); $i++) {
             if($this->found_flag)
                 break;

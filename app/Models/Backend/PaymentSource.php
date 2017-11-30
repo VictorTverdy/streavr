@@ -22,4 +22,10 @@ class PaymentSource extends Model {
      */
     public $timestamps = true;
 
+    public function distributor()
+    {
+        return $this->hasOne('App\Models\Backend\Distributor');
+    }
+
+
 }

@@ -7,6 +7,7 @@ use App\Models\Backend\Distributor;
 use App\Models\Backend\PaymentSource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use Validator;
 
 class DistributorController extends Controller {
     /**
@@ -44,6 +45,19 @@ class DistributorController extends Controller {
 
     public function saveDistributor(Request $request)
     {
+
+        $fields = [
+          //  'id' => 'required',
+            'name' => 'required',
+            'email' => 'required',
+            'source_id' => 'required'
+        ];
+        $validator = Validator::make($request->all(), $fields);
+
+        if ($validator->fails()) {
+            return $validator->errors()->all();
+        }
+
 
         $id = Input::get('id', 0);
         $name = Input::get('name');

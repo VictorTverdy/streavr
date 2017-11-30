@@ -214,6 +214,7 @@ class EventController extends Controller
 
         $qrCode = new QrCode();
         $qrCode->event_id = $attendee->event_id;
+        $qrCode->payment_source_id = 2;
         $qrCode->key = mt_rand();
         $qrCode->qr_code = Crypt::encryptString($attendee->event_id . '_' . $qrCode->key);
         $qrCode->save();
@@ -298,7 +299,10 @@ class EventController extends Controller
             $key= substr($code,$pos+1, strlen($code)-$pos -1);
 
             $qrCode = QrCode::where('event_id', $event_id)
-                ->where('key', $key)
+                ->where([
+                    'key' => $key,
+                    'is_used' => '0'
+                ])
                 ->first();
 
             if (!$qrCode) {
@@ -307,6 +311,11 @@ class EventController extends Controller
                 return response()->json($data);
             }
 
+            // Set QR code as used
+            $qrCode->is_used = 1;
+            $qrCode->save();
+
+            //Set QR code for attendee
             $attendee = Attendee::where('id', $attendee_id)
             ->whereNull('qr_code_id')->first();
 

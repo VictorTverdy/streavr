@@ -2,6 +2,8 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Backend\Distributor;
+use App\Models\Backend\EmailTemplate;
 use App\Models\Backend\Event;
 use App\Models\Backend\QrCode;
 use Illuminate\Http\Request;
@@ -11,8 +13,10 @@ use Intervention\Image\ImageManager as Image;
 use App\Models\Backend\Attendee;
 use phpDocumentor\Reflection\Types\Object_;
 use Illuminate\Support\Facades\Crypt;
-
+use App;
 use Validator;
+use Mail;
+use  DNS2D;
 
 class EventController extends Controller
 {
@@ -21,7 +25,6 @@ class EventController extends Controller
      */
     public function showEvents()
     {
-
        return view('backend.event.index');
     }
 
@@ -285,8 +288,110 @@ class EventController extends Controller
     public function qrCodes( $id ) {
 
         $codes = QrCode::where(['event_id' => $id])->get();
+        $event = Event::find($id);
 
-        return view('backend.event.qr-codes', ['codes' => $codes]);
+
+        return view('backend.event.qr-codes', [
+            'codes' => $codes,
+            'event' => $event
+        ]);
     }
+
+    /**
+     * Form for generate QR Codes
+     */
+    public function generateQRCodesForm($id) {
+
+        $event = Event::find($id);
+
+        $distributors = Distributor::get();
+
+        return view('backend.event.generate-qr-codes-form', [
+            'event' => $event,
+            'distributors' => $distributors
+        ]);
+    }
+
+    /**
+     * Generate QR Codes
+     */
+    public function generateQRCodes(Request $request) {
+
+        $validator = Validator::make($request->all(), [
+            'event_id' => 'required|numeric|min:1',
+            'distributor_id' => 'required|numeric|min:1',
+            'quantity' => 'required|numeric|min:1'
+        ]);
+
+        if ($validator->fails()) {
+            return $validator->errors()->all();
+        }
+
+        $event_id = Input::get('event_id');
+        $distributor_id = Input::get('distributor_id');
+        $quantity = (int)Input::get('quantity');
+
+        $distributor = Distributor::find($distributor_id);
+        $payment_source_id = $distributor->payment_source_id;
+
+        for ($i = 0; $i <$quantity; $i++) {
+            $qrCode = new QrCode();
+            $qrCode->event_id = $event_id;
+            $qrCode->payment_source_id = $payment_source_id;
+            $qrCode->key = mt_rand();
+            $qrCode->qr_code = Crypt::encryptString($event_id . '_' . $qrCode->key);
+            $qrCode->save();
+        }
+
+        return redirect('event/qr-codes/'.$event_id);
+    }
+
+    public function sendQRCodes($id)
+    {
+        $template = EmailTemplate::first();
+
+        $codes = QrCode::with('paymentSource.distributor')
+            ->where([
+                'event_id' => $id,
+                'is_used' => 0
+            ])
+            ->orderBy('payment_source_id', 'asc')
+            ->get();
+
+
+        $qrs = [];
+        $email = '';
+        foreach ($codes as $code) {
+            if ($email != $code->paymentSource->distributor->email) {
+                $qrs[$code->paymentSource->distributor->email]["data"] = [];
+                $email = $code->paymentSource->distributor->email;
+            }
+            $qrs[$code->paymentSource->distributor->email]["data"][] = $code->qr_code;
+
+        }
+        foreach ($qrs as $key => $values) {
+            $str = '';
+            foreach ($values as $codes) {
+                foreach ($codes as $code) {
+                    $str .='<img src="data:image/png;base64,' . DNS2D::getBarcodePNG($code, "QRCODE",4,4) . '" alt="barcode"   /><br><br>';
+                }
+            }
+            $pdf = App::make('dompdf.wrapper');
+            $pdf->loadHTML($str);
+
+            Mail::send('backend.email.contact', ['template' => $template], function ($message) use ($template, $pdf,$key) {
+
+                $message->from($template->from_email, $template->from_name);
+                $message->to($key);
+                $message->subject($template->subject);
+                $message->attachData($pdf->stream(),'Codes.pdf');
+            });
+
+        }
+
+        return redirect('events');
+    }
+
+
 
 }

@@ -16,7 +16,7 @@
 @endsection
 
 @section('page_level_js')
-    <script src="/assets/pages/scripts/distributor-new.js" type="text/javascript"></script>
+    <script src="/assets/pages/scripts/generate-qr-codes.js" type="text/javascript"></script>
 @endsection
 
 @section('content')
@@ -49,48 +49,41 @@
                 <div class="portlet-title">
                     <div class="caption">
                         <i class="icon-settings font-red"></i>
-                        <span class="caption-subject font-red sbold uppercase">Generate QR codes parameters</span>
+                        <span class="caption-subject font-red sbold uppercase">Generate QR codes for event "{{$event->name}}"</span>
                     </div>
                 </div>
                 <div class="portlet-body">
                     <!-- BEGIN FORM-->
-                    <form action="/distributor/save" id="form_distributor" method="post" class="form-horizontal">
+                    <form action="/event/generate-qr-codes" id="form_generate" method="post" class="form-horizontal">
                         {{ csrf_field() }}
                         <div class="form-body">
                             <div class="form-group">
-                                <label class="control-label col-md-3">Name
+                                <label class="control-label col-md-3">Distributor
                                     <span class="required"> * </span>
                                 </label>
                                 <div class="col-md-4">
-                                    <input type="text" name="name" class="form-control" /> </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-3">Email
-                                    <span class="required"> * </span>
-                                </label>
-                                <div class="col-md-4">
-                                    <input name="email" type="email" class="form-control" />
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-3">Payment Sources
-                                    <span class="required"> * </span>
-                                </label>
-                                <div class="col-md-4">
-                                    <select class="form-control" name="source_id">
+                                    <select class="form-control" name="distributor_id">
                                         <option value="">Select...</option>
-                                        @foreach($sources as $source)
-                                            <option value="{{$source->id}}">{{$source->name}}</option>
+                                        @foreach($distributors as $distributor)
+                                            <option value="{{$distributor->id}}">{{$distributor->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Quantity
+                                    <span class="required"> * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    <input type="text" name="quantity" class="form-control" /> </div>
+                                    <input type="hidden" name="event_id" class="form-control" value="{{$event->id}}"/> </div>
+                            </div>
+
                         </div>
                         <div class="form-actions">
                             <div class="row">
                                 <div class="col-md-offset-3 col-md-9">
-                                    <button type="submit" class="btn blue-steel">Add New Distributor</button>
+                                    <button type="submit" class="btn blue-steel">Generate</button>
                                 </div>
                             </div>
                         </div>

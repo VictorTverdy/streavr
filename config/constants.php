@@ -77,7 +77,7 @@ return [
                     'url' => '/events',
                     'icon' => '',
                     'hidden' => 0,
-                    'user_level' => [1, 2],
+                    'user_level' => [1,2 ],
                     'children' => [
                         [
                             'id' => 'event_edit',
@@ -97,6 +97,25 @@ return [
                             'user_level' => [1],
                             'children' => []
                         ],
+                        [
+                            'id' => 'event_qr_codes',
+                            'name' => 'Event QR codes',
+                            'url' => '/event/qr-codes/{id}',
+                            'icon' => '',
+                            'hidden' => 1,
+                            'user_level' => [1],
+                            'children' => []
+                        ],
+                        [
+                            'id' => 'event_generate_qr_codes_form',
+                            'name' => 'Generate QR codes',
+                            'url' => '/event/generate-qr-codes-form/{id}',
+                            'icon' => '',
+                            'hidden' => 1,
+                            'user_level' => [1],
+                            'children' => []
+                        ]
+
                     ]
                 ], [
                     'id' => 'event_add',

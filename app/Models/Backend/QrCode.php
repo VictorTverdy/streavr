@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $event_id
  * @property string $key
  * @property string $qr_code
+ * @property integer $payment_source_id
+ * @property integer $is_used
  */
 
 class QrCode extends Model
@@ -29,4 +31,11 @@ class QrCode extends Model
     {
         return $this->belongsTo('App\Models\Backend\Event');
     }
+
+    public function paymentSource()
+    {
+        return $this->belongsTo('App\Models\Backend\PaymentSource');
+    }
+
+
 }

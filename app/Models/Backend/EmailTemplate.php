@@ -11,6 +11,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $id
  * @property string $subject
  * @property string $body
+ * @property string $from_email
+ * @property string $from_name
+ *
  */
 
 class EmailTemplate extends Model  {
