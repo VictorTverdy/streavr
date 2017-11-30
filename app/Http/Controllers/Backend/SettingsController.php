@@ -17,15 +17,7 @@ class SettingsController extends Controller
     public function email()
     {
         $template = EmailTemplate::first();
-        if (count($template) == 0) {
 
-            $template =  new \stdClass();
-            $template->email_from = '';
-            $template->name_from = '';
-            $template->subject = '';
-            $template->body = '';
-            $template->id = '';
-        }
         return view('backend.settings.email-template',[
             'template' => $template
         ]);
