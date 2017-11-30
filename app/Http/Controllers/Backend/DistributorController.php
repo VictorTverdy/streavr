@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Backend\Distributor;
 use App\Models\Backend\PaymentSource;
+use App\Models\Backend\QrCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Validator;
@@ -47,10 +48,8 @@ class DistributorController extends Controller {
     {
 
         $fields = [
-          //  'id' => 'required',
             'name' => 'required',
-            'email' => 'required',
-            'source_id' => 'required'
+            'email' => 'required'
         ];
         $validator = Validator::make($request->all(), $fields);
 
@@ -62,17 +61,25 @@ class DistributorController extends Controller {
         $id = Input::get('id', 0);
         $name = Input::get('name');
         $email = Input::get('email');
-        $sourceId = Input::get('source_id');
+
 
         if ($id) {  // Update
             $distributor = Distributor::find($id);
+            $source = PaymentSource::find($distributor->payment_source_id);
+            $source->name = $name;
+            $source->save();
+
         } else {    // New
+            $source = new PaymentSource();
+            $source->name = $name;
+            $source->save();
             $distributor = new Distributor();
+            $distributor->payment_source_id = $source->id;
+
         }
 
         $distributor->name = $name;
         $distributor->email = $email;
-        $distributor->payment_source_id = $sourceId;
         $distributor->save();
 
         return redirect('/distributors');
@@ -83,10 +90,19 @@ class DistributorController extends Controller {
      */
     public function deleteDistributor(Request $request, $id) {
         // Remove data in database
-        Distributor::destroy($id);
+        $distributor = Distributor::find($id);
+        $codes = QrCode::where([
+            'payment_source_id' =>$distributor->payment_source_id
+        ])->get()->count();
+
+        if ($codes != 0 ) {
+            $data = ['result' => 0];
+        } else {
+            Distributor::destroy($id);
+            $data = ['result' => 1];
+        }
 
         // result => 1: success, 0: error
-        $data = ['result' => 1];
 
         return response()->json($data);
     }

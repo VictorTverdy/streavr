@@ -49,7 +49,7 @@
                     <tr role="row" class="heading">
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Payment Source Type</th>
+                        <th>Payment Source</th>
                         <th>Created Date</th>
                         <th>&nbsp;</th>
                     </tr>

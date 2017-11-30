@@ -72,19 +72,6 @@
                                     <input name="email" type="email" class="form-control" value="{{ $distributor->email }}" />
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-3">Payment Source
-                                    <span class="required"> * </span>
-                                </label>
-                                <div class="col-md-4">
-                                    <select class="form-control" name="source_id">
-                                        <option value="">Select...</option>
-                                        @foreach($sources as $source)
-                                            <option value="{{$source->id}}" @if ($distributor->payment_source_id == $source->id) selected @endif>{{$source->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
                         </div>
                         <div class="form-actions">
                             <div class="row">
