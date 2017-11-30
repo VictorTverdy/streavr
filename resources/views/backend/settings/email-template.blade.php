@@ -84,9 +84,9 @@
                                 </label>
                                 <div class="col-md-4">
                                     @if ($template)
-                                        <textarea name="body" class="form-control">{{$template->body }}</textarea>
+                                        <textarea name="body" class="form-control" style="height: 200px;">{{$template->body }}</textarea>
                                     @else
-                                        <textarea name="body" class="form-control"></textarea>
+                                        <textarea name="body" class="form-control" style="height: 200px;"></textarea>
                                     @endif
                                 </div>
                             </div>
