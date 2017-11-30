@@ -26,10 +26,10 @@ var AttendeesClass = function () {
                     data: 'allowed'
                 },
                 {
-                    data: 'payment_source_name'
+                    data: 'payment_method_name'
                 },
                 {
-                    data: 'payment_method_name'
+                    data: 'payment_source_name'
                 },
                 {
                     data: 'registration_status_name'
