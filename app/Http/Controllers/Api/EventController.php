@@ -217,6 +217,7 @@ class EventController extends Controller
         $qrCode->payment_source_id = 2;
         $qrCode->key = mt_rand();
         $qrCode->qr_code = Crypt::encryptString($attendee->event_id . '_' . $qrCode->key);
+        $qrCode->is_used = 1;
         $qrCode->save();
 
         if (!$qrCode->save()) {
