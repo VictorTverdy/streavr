@@ -324,7 +324,7 @@ class EventController extends Controller
                 $attendee->qr_code_id = $qrCode->id;
                 $attendee->payment_method_id = 3;
                 $attendee->payment_status_id = 3;
-                $attendee->payment_source_id = 1;
+                $attendee->payment_source_id = $qrCode->payment_source_id;
                 if (!$attendee->save()) {
                     $data = ['error' => 'Can\'t  save QR Code into Attendee.'];
 
