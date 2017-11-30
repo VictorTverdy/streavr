@@ -62,28 +62,32 @@
                                     <span class="required"> * </span>
                                 </label>
                                 <div class="col-md-4">
-                                    <input type="text" name="email_from" class="form-control" value="{{ $template->from_email }}" /> </div>
+                                    <input type="text" name="from_email" class="form-control" @if ($template) value="{{$template->from_email }}" @endif /> </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-1">From (name)
                                     <span class="required"> * </span>
                                 </label>
                                 <div class="col-md-4">
-                                    <input type="text" name="name_from" class="form-control" value="{{ $template->from_name }}" /> </div>
+                                    <input type="text" name="from_name" class="form-control" @if ($template)  value="{{$template->from_name }}" @endif /> </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-1">Subject
                                     <span class="required"> * </span>
                                 </label>
                                 <div class="col-md-4">
-                                    <input type="text" name="subject" class="form-control" value="{{ $template->subject }}" /> </div>
+                                    <input type="text" name="subject" class="form-control" @if ($template)  value="{{$template->subject }}" @endif /> </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-1">Body
                                     <span class="required"> * </span>
                                 </label>
                                 <div class="col-md-4">
-                                    <textarea name="body" class="form-control">{{ $template->body }} </textarea>
+                                    @if ($template)
+                                        <textarea name="body" class="form-control">{{$template->body }}</textarea>
+                                    @else
+                                        <textarea name="body" class="form-control"></textarea>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -94,7 +98,7 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" name="id" id="id" value="{{ $template->id }}" />
+                        <input type="hidden" name="id" id="id" @if ($template) value="{{$template->id }}"  @endif />
                     </form>
                     <!-- END FORM-->
                 </div>

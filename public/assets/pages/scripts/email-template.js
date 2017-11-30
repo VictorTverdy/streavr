@@ -9,11 +9,11 @@ var TemplateClass = function () {
             ignore: "",  // validate all fields including form hidden input
             rules: {
                 from_email: {
-                    minlength: 2,
-                    required: true
+                    required: true,
+                    email: true
                 },
                 from_name: {
-                    required: true,
+                    required: true
                 },
                 subject: {
                     required: true
@@ -38,6 +38,7 @@ var TemplateClass = function () {
                     .closest('.form-group').removeClass('has-error'); // set success class to the control group
             },
             submitHandler: function (form) {
+
                 form[0].submit(); // submit the form
             }
         });

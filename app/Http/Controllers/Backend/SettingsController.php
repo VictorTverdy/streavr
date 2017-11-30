@@ -36,16 +36,16 @@ class SettingsController extends Controller
         $validator = Validator::make($request->all(), [
             'subject' => 'required',
             'body' => 'required',
-            'name_from' => 'required',
-            'email_from' => 'required',
+            'from_name' => 'required',
+            'from_email' => 'required',
         ]);
 
         if ($validator->fails()) {
             return $validator->errors()->all();
         }
 
-        $nameFrom = Input::get('name_from');
-        $emailFrom = Input::get('email_from');
+        $nameFrom = Input::get('from_name');
+        $emailFrom = Input::get('from_email');
         $subject = Input::get('subject');
         $body = Input::get('body');
         $id = Input::get('id');
