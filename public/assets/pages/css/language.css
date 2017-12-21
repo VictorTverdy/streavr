@@ -1,0 +1,6 @@
+ .thumbnail {
+    max-width: 80px !important;
+    min-width: 50px !important;;
+    min-height: 30px !important;;
+    margin-bottom: 0 !important;;
+}

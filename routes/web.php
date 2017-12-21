@@ -108,6 +108,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/email-template', 'Backend\SettingsController@email');
     Route::post('settings/email-template/save', 'Backend\SettingsController@emailSave');
 
+    /**
+     * Language settings
+     */
+    Route::get('settings/languages', 'Backend\LanguageController@index');
+    Route::get('settings/language/edit/{id}', 'Backend\LanguageController@editLanguage')->where('id', '[a-z]+');
+    Route::post('settings/language/save', 'Backend\LanguageController@saveLanguage');
 
 
 });

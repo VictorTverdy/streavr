@@ -260,7 +260,17 @@ return [
                     'hidden' => 0,
                     'user_level' => [1],
                     'children' => []
+                ],
+                [
+                    'id' => 'language_setting',
+                    'name' => 'Languages',
+                    'url' => '/settings/languages',
+                    'icon' => '',
+                    'hidden' => 0,
+                    'user_level' => [1],
+                    'children' => []
                 ]
+
 
 
 
