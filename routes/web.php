@@ -27,6 +27,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('video/upload', 'Backend\VideoController@uploadVideo');
     Route::get('video/delete_video', 'Backend\VideoController@deleteVideoFile');
     Route::get('video/get_videos_by_user', 'Backend\VideoController@getVideosByUser');
+    Route::get('video/language/{id}', 'Backend\VideoController@editVideoLanguage')->where('id', '[0-9]+');
+    Route::post('video/language/save', 'Backend\VideoController@saveVideoLanguage');
 
     /**
      * Video category

@@ -40,12 +40,11 @@ class EventController extends Controller
 
         $rows = Event::orderBy('created_at', 'desc')->get();
         for ($i = 0; $i < count($rows); $i++) {
-            $href = '';
-            $delimiter =', ';
             $row = &$rows[$i];
             $row->DT_RowId = 'row_' . $row->id;
             $row->no = $i + 1;
             $row->DT_RowData = ['id' => $row->id];
+            $href = '';
             foreach ($languages as $language) {
                 $href .= '<a href="/event/language/'.$row->id.'?lang='.$language->id.'" class="btn btn-xs blue "><i class="fa"></i>'. $language->id .'</a> ';
             }

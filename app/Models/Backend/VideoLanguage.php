@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $id
  * @property string $language_id
  * @property string $video_id
- * @property string $name
+ * @property string $title
  * @property string $description
  */
 

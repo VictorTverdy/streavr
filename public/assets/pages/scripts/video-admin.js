@@ -37,6 +37,9 @@ var VideoClass = function () {
                     data: 'created_at'
                 },
                 {
+                    data: 'language'
+                },
+                {
                     data: null,
                     searchable: false,
                     width: 110,

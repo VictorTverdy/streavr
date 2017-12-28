@@ -53,6 +53,7 @@
                         <th>User email</th>
                         <th>Visibility</th>
                         <th>Created Date</th>
+                        <th>Languages</th>
                         <th>&nbsp;</th>
                     </tr>
                     </thead>

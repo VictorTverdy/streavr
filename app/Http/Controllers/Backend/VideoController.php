@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager as Image;
 use Validator;
+use App\Models\Backend\Language;
+use App\Models\Backend\VideoLanguage;
 
 class VideoController extends Controller {
     /**
@@ -198,6 +200,7 @@ class VideoController extends Controller {
         $data = [];
 
         $user = Auth::user();
+        $languages =Language::where('is_default', 0)->get();
 
         if ($user->user_level == 1) {     // Administrator
             $sql = "SELECT v.*, c.name category_name, u.email user_email, CONCAT(u.first_name, ' ', u.last_name) AS user_name"
@@ -220,9 +223,93 @@ class VideoController extends Controller {
                 $row->thumbnail = '<img class="thumbnail" src="'. $row->thumbnail_url .'" />';
             }
             $row->visibility = $row->visibility ? '<span class="label label-sm label-success"> Show </span>' : '<span class="label label-sm label-danger"> Hidden </span>';
+            $href = '';
+            foreach ($languages as $language) {
+                $href .= '<a href="/video/language/'.$row->id.'?lang='.$language->id.'" class="btn btn-xs blue "><i class="fa"></i>'. $language->id .'</a> ';
+            }
+            $row->language = $href;
+
         }
         $data['data'] = $rows;
 
         return response()->json($data);
     }
+
+    /**
+     * Edit video language
+     */
+    public function editVideoLanguage(Request $request, $id) {
+
+        // Get video
+        $video = Video::find($id);
+
+        $fields = [
+            'lang' => 'required',
+        ];
+        $validator = Validator::make($request->all(), $fields);
+
+        if ($validator->fails()) {
+            return $validator->errors()->all();
+        }
+
+        $languageId = Input::get('lang');
+        // Get language
+        $language = Language::find($languageId);
+
+        // Get video language
+        $videoLanguage = VideoLanguage::where([
+            'video_id' => $id,
+            'language_id' => $languageId
+        ])->first();
+
+        return view('backend.video.edit-language', [
+            'video' => $video,
+            'language' => $language,
+            'videoLanguage' => $videoLanguage
+        ]);
+    }
+
+    /**
+     * Save event language
+     */
+    public function saveVideoLanguage(Request $request) {
+
+        $fields = [
+            'language_id' => 'required',
+            'video_id' => 'required',
+            'title' => 'required',
+            'description' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $fields);
+
+        if ($validator->fails()) {
+            return $validator->errors()->all();
+        }
+
+        $languageId = Input::get('language_id');
+        $videoId = Input::get('video_id');
+        $title = Input::get('title');
+        $description = Input::get('description');
+        $id = Input::get('id');
+
+        // create VideoLanguage
+        if ($id) {
+            $videoLanguage = VideoLanguage::find($id)->first();
+        } else {
+            $videoLanguage = new VideoLanguage();
+        }
+
+        $videoLanguage->language_id = $languageId;
+        $videoLanguage->video_id = $videoId;
+        $videoLanguage->title = $title;
+        $videoLanguage->description = $description;
+
+        if ($videoLanguage->save()) {
+            return redirect('videos');
+        }
+
+    }
+
+
 }

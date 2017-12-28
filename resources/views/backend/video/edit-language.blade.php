@@ -1,6 +1,6 @@
 @extends('backend.template')
 
-@section('title', 'Event Language')
+@section('title', 'Video Language')
 
 @section('page_level_plugins_css')
     <link href="/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet" type="text/css" />
@@ -9,7 +9,7 @@
 @endsection
 
 @section('page_level_css')
-    <link href="/assets/pages/css/event-new.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/pages/css/video-new.css" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('page_level_plugins_js')
@@ -35,7 +35,7 @@
 @endsection
 
 @section('page_level_js')
-    <script src="/assets/pages/scripts/event-language.js" type="text/javascript"></script>
+    <script src="/assets/pages/scripts/video-language.js" type="text/javascript"></script>
 @endsection
 
 <?php
@@ -52,17 +52,17 @@ $auth_user = \Illuminate\Support\Facades\Auth::user();
                 <i class="fa fa-circle"></i>
             </li>
             <li>
-                <a href="{{ url('/events') }}">Events</a>
+                <a href="{{ url('/videos') }}">Videos</a>
                 <i class="fa fa-circle"></i>
             </li>
             <li>
-                <span>Edit Event Language Version</span>
+                <span>Edit Video language Version</span>
             </li>
         </ul>
     </div>
     <!-- END PAGE BAR -->
     <!-- BEGIN PAGE TITLE-->
-    <h1 class="page-title">Edit Event Language Version</h1>
+    <h1 class="page-title">Edit Video language Version</h1>
     <!-- END PAGE TITLE-->
     <!-- END PAGE HEADER-->
     <div class="row">
@@ -81,59 +81,43 @@ $auth_user = \Illuminate\Support\Facades\Auth::user();
                             </div>
                         </div>
                     </div>
-                <div class="portlet-body">
-                    <form id="form_event_edit" action="/event/language/save" method="post" enctype="multipart/form-data">
-                        <div class="row">
-                            {{ csrf_field() }}
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="control-label">Name</label>
-                                    <input type="text" name="name" class="form-control" value="@if (!is_null($eventLanguage)) {{ $eventLanguage->name }} @endif" />
+                    <div class="portlet-body">
+                        <form id="form_video_edit" action="/video/language/save" method="post" enctype="multipart/form-data">
+                            <div class="row">
+                                {{ csrf_field() }}
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Name</label>
+                                        <input type="text" name="title" class="form-control" value="@if (!is_null($videoLanguage)) {{ $videoLanguage->title }} @endif" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Description</label>
+                                        <textarea name="description" class="form-control" rows="5">@if (!is_null($videoLanguage)) {{ $videoLanguage->description }} @endif</textarea>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label">Title</label>
-                                    <input type="text" name="title" class="form-control" value="@if (!is_null($eventLanguage)) {{ $eventLanguage->title }} @endif" />
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">Subtitle</label>
-                                    <input type="text" name="subtitle" class="form-control" value="@if (!is_null($eventLanguage)) {{ $eventLanguage->subtitle }} @endif" />
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">Description</label>
-                                    <textarea name="description" class="form-control" rows="5">@if (!is_null($eventLanguage)) {{ $eventLanguage->description }} @endif</textarea>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="control-label">Name</label>
-                                    <div class="form-control">{{ $event->name }}</div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">Title</label>
-                                    <div class="form-control">{{ $event->title }}</div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">Subtitle</label>
-                                    <div class="form-control"> {{ $event->subtitle }} </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">Description</label>
-                                    <div class="form-control"> {{ $event->description }} </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Name</label>
+                                        <div class="form-control">{{ $video->title }}</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Description</label>
+                                        <div class="form-control"> {{ $video->description }} </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-actions">
-                            <div class="margin-top-10">
-                                <input type="hidden" name="event_id" id="event_id" value="{{ $event->id }}" />
-                                <input type="hidden" name="language_id" id="language_id" value="{{$language->id }}" />
-                                <input type="hidden" name="id" id="event_language_id" value="@if (!is_null($eventLanguage)) {{ $eventLanguage->id }} @endif" />
-                                <button type="submit" id="save_event_language_butt" class="btn blue-steel">Save Language Version</button>
+                            <div class="form-actions">
+                                <div class="margin-top-10">
+                                    <input type="hidden" name="video_id" id="video_id" value="{{ $video->id }}" />
+                                    <input type="hidden" name="language_id" id="language_id" value="{{$language->id }}" />
+                                    <input type="hidden" name="id" id="video_language_id" value="@if (!is_null($videoLanguage)) {{ $videoLanguage->id }} @endif" />
+                                    <button type="submit" id="save_video_language_butt" class="btn blue-steel">Save Language Version</button>
+                                </div>
                             </div>
-                        </div>
-                        <input type="hidden" name="form_action" value="edit" />
-                    </form>
+                            <input type="hidden" name="form_action" value="edit" />
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 @endsection
