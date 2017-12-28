@@ -11,7 +11,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string $thumbnail
  * @property string thumbnail_url
- */
+ * @property boolean is_default
+ * */
 
 class Language extends Model
 {

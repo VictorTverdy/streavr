@@ -50,8 +50,12 @@ var EventClass = function () {
                 },
                 {
                     data: 'active'
-                },                {
+                },
+                {
                     data: 'created_at'
+                },
+                {
+                    data: 'language'
                 },
                 {
                     data: null,

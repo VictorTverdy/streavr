@@ -57,6 +57,7 @@
                         <th>Time length</th>
                         <th>Active</th>
                         <th>Created Date</th>
+                        <th>Languages</th>
                         <th>&nbsp;</th>
                     </tr>
                     </thead>

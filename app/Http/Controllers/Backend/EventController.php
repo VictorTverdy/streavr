@@ -17,6 +17,8 @@ use App;
 use Validator;
 use Mail;
 use  DNS2D;
+use App\Models\Backend\Language;
+use App\Models\Backend\EventLanguage;
 
 class EventController extends Controller
 {
@@ -33,15 +35,23 @@ class EventController extends Controller
      */
     public function getEvents() {
         $data = [];
+        $href = '';
+        $languages =Language::where('is_default', 0)->get();
 
         $rows = Event::orderBy('created_at', 'desc')->get();
         for ($i = 0; $i < count($rows); $i++) {
+            $href = '';
+            $delimiter =', ';
             $row = &$rows[$i];
             $row->DT_RowId = 'row_' . $row->id;
             $row->no = $i + 1;
             $row->DT_RowData = ['id' => $row->id];
+            foreach ($languages as $language) {
+                $href .= '<a href="/event/language/'.$row->id.'?lang='.$language->id.'" class="btn btn-xs blue "><i class="fa"></i>'. $language->id .'</a> ';
+            }
+            $row->language = $href;
             if ($row->thumbnail_url) {
-                $row->thumbnail = '<img class="thumbnail" src="'. $row->thumbnail_url .'" />';
+                $row->thumbnail = '<img class="thumbnail"  src="'. $row->thumbnail_url .'" />';
             } else {
                 $row->thumbnail = '';
             }
@@ -392,6 +402,86 @@ class EventController extends Controller
         return redirect('events');
     }
 
+    /**
+     * Edit event language
+     */
+    public function editEventLanguage(Request $request, $id) {
 
+        // Get event
+        $event = Event::find($id);
+
+        $fields = [
+            'lang' => 'required',
+        ];
+        $validator = Validator::make($request->all(), $fields);
+
+        if ($validator->fails()) {
+            return $validator->errors()->all();
+        }
+
+        $languageId = Input::get('lang');
+        // Get language
+        $language = Language::find($languageId);
+
+        // Get event language
+        $eventLanguage = EventLanguage::where([
+            'event_id' => $id,
+            'language_id' => $languageId
+        ])->first();
+
+        return view('backend.event.edit-language', [
+            'event' => $event,
+            'language' => $language,
+            'eventLanguage' => $eventLanguage
+        ]);
+    }
+
+    /**
+     * Save event language
+     */
+    public function saveEventLanguage(Request $request) {
+
+        $fields = [
+            'language_id' => 'required',
+            'event_id' => 'required',
+            'name' => 'required',
+            'title' => 'required',
+            'subtitle' => 'required',
+            'description' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $fields);
+
+        if ($validator->fails()) {
+            return $validator->errors()->all();
+        }
+
+        $languageId = Input::get('language_id');
+        $eventId = Input::get('event_id');
+        $name = Input::get('name');
+        $title = Input::get('title');
+        $subtitle = Input::get('subtitle');
+        $description = Input::get('description');
+        $id = Input::get('id');
+
+        // create EventLanguage
+        if ($id) {
+            $eventLanguage = EventLanguage::find($id)->first();
+        } else {
+            $eventLanguage = new EventLanguage();
+        }
+
+        $eventLanguage->language_id = $languageId;
+        $eventLanguage->event_id = $eventId;
+        $eventLanguage->name = $name;
+        $eventLanguage->title = $title;
+        $eventLanguage->subtitle = $subtitle;
+        $eventLanguage->description = $description;
+
+        if ($eventLanguage->save()) {
+            return redirect('events');
+        }
+
+    }
 
 }

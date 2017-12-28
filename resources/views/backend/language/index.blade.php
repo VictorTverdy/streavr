@@ -35,6 +35,7 @@
                     <tr role="row" class="heading">
                         <th width="5%"></th>
                         <th width="5%">Key</th>
+                        <th width="5%">Default</th>
                         <th>Name</th>
                         <th width="5%"></th>
                     </tr>
@@ -44,6 +45,10 @@
                         <tr>
                             <td><img class="thumbnail" src="{{$language->thumbnail_url}}"></td>
                             <td>{{$language->id}}</td>
+                            <td>@if ($language->is_default ==1 )
+                                    yes
+                                @endif
+                            </td>
                             <td>{{$language->name}}</td>
                             <td><a href="/settings/language/edit/{{$language->id}}" class="btn btn-xs blue edit-butt"><i class="fa fa-edit"></i> Edit</a></td>
                         </tr>

@@ -52,3 +52,5 @@ Route::post('event/add_stripe_payment', 'Api\EventController@addStripePayment');
 Route::post('event/del_stripe_payment', 'Api\EventController@delStripePayment');
 Route::post('event/check_code', 'Api\EventController@checkCode');
 
+// Get all languages
+Route::get('language/get_languages', 'Api\LanguageController@getLanguages');
