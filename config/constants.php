@@ -43,7 +43,17 @@ return [
                     'hidden' => 0,
                     'user_level' => [1, 2],
                     'children' => []
-                ], [
+                ],
+                [
+                    'id' => 'video_language',
+                    'name' => 'Edit Video language',
+                    'url' => '/video/language/{id}',
+                    'icon' => '',
+                    'hidden' => 1,
+                    'user_level' => [1],
+                    'children' => []
+                ],
+                [
                     'id' => 'video_categories',
                     'name' => 'Categories',
                     'url' => '/video/categories',
@@ -59,9 +69,19 @@ return [
                             'hidden' => 1,
                             'user_level' => [1],
                             'children' => []
+                        ],
+                        [
+                            'id' => 'video_category_language',
+                            'name' => 'Edit Category Language',
+                            'url' => '/video/category/language/{id}',
+                            'icon' => '',
+                            'hidden' => 1,
+                            'user_level' => [1],
+                            'children' => []
                         ]
+
                     ]
-                ]
+                ],
             ]
         ],[
             'id' => 'events',
@@ -83,6 +103,15 @@ return [
                             'id' => 'event_edit',
                             'name' => 'Edit Event',
                             'url' => '/event/edit/{id}',
+                            'icon' => '',
+                            'hidden' => 1,
+                            'user_level' => [1],
+                            'children' => []
+                        ],
+                        [
+                            'id' => 'event_language',
+                            'name' => 'Edit Event language',
+                            'url' => '/event/language/{id}',
                             'icon' => '',
                             'hidden' => 1,
                             'user_level' => [1],

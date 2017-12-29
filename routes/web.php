@@ -38,6 +38,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('video/category/delete/{id}', 'Backend\VideoCategoryController@deleteCategory')->where('id', '[0-9]+');
     Route::get('video/category/edit/{id}', 'Backend\VideoCategoryController@editCategory')->where('id', '[0-9]+');
     Route::post('video/category/reorder', 'Backend\VideoCategoryController@reorderCategory');
+    Route::get('video/category/language/{id}', 'Backend\VideoCategoryController@editCategoryLanguage')->where('id', '[0-9]+');
+    Route::post('video/category/language/save', 'Backend\VideoCategoryController@saveCategoryLanguage');
 
     /**
      * User

@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager as Image;
+use App\Models\Backend\VideoCategoryLanguage;
+use App\Models\Backend\Language;
+use Validator;
 
 
 
@@ -148,4 +151,80 @@ class VideoCategoryController extends Controller {
 
         return response()->json($data);
     }
+    /**
+     * Edit video language
+     */
+    public function editCategoryLanguage(Request $request, $id) {
+
+        // Get video
+        $videoCategory = VideoCategory::find($id);
+
+        $fields = [
+            'lang' => 'required',
+        ];
+        $validator = Validator::make($request->all(), $fields);
+
+        if ($validator->fails()) {
+            return $validator->errors()->all();
+        }
+
+        $languageId = Input::get('lang');
+        // Get language
+        $language = Language::find($languageId);
+
+        // Get video language
+        $videoCategoryLanguage = VideoCategoryLanguage::where([
+            'video_category_id' => $id,
+            'language_id' => $languageId
+        ])->first();
+
+        return view('backend.video.category.edit-language', [
+            'videoCategory' => $videoCategory,
+            'language' => $language,
+            'videoCategoryLanguage' => $videoCategoryLanguage
+        ]);
+    }
+
+    /**
+     * Save event language
+     */
+    public function saveCategoryLanguage(Request $request) {
+
+        $fields = [
+            'language_id' => 'required',
+            'video_category_id' => 'required',
+            'name' => 'required',
+            'description' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $fields);
+
+        if ($validator->fails()) {
+            return $validator->errors()->all();
+        }
+
+        $languageId = Input::get('language_id');
+        $videoCategoryId = Input::get('video_category_id');
+        $name = Input::get('name');
+        $description = Input::get('description');
+        $id = Input::get('id');
+
+        // create VideoLanguage
+        if ($id) {
+            $videoCategoryLanguage = VideoCategoryLanguage::find($id)->first();
+        } else {
+            $videoCategoryLanguage = new VideoCategoryLanguage();
+        }
+
+        $videoCategoryLanguage->language_id = $languageId;
+        $videoCategoryLanguage->video_category_id = $videoCategoryId;
+        $videoCategoryLanguage->name = $name;
+        $videoCategoryLanguage->description = $description;
+
+        if ($videoCategoryLanguage->save()) {
+            return redirect('video/categories');
+        }
+
+    }
+
 }

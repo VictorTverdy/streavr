@@ -18,7 +18,7 @@ class CreateVideoCategoryLanguageTable extends Migration
             $table->increments('id');
             $table->integer('video_category_id',false,true);
             $table->char('language_id', 2);
-            $table->string('title', 255)->nullable();
+            $table->string('name', 255)->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
         });

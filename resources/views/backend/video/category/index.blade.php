@@ -100,6 +100,7 @@
                     <th>Thumbnail</th>
                     <th>Name</th>
                     <th>Description</th>
+                    <th>Languages</th>
                     <th>&nbsp;</th>
                 </tr>
                 </thead>

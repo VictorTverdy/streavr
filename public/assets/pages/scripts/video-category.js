@@ -59,6 +59,9 @@ var VideoCategory = function () {
                     data: 'description'
                 },
                 {
+                    data: 'language'
+                },
+                {
                     data: null,
                     searchable: false,
                     width: 110,
