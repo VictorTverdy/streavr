@@ -6,6 +6,8 @@ use App\Models\Backend\Video;
 use App\Models\Backend\VideoFavorites;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
+use Validator;
+use Illuminate\Http\Request;
 
 class VideoController extends Controller {
     /**
@@ -33,15 +35,36 @@ class VideoController extends Controller {
     /**
      * Get videos by category and user
      */
-    public function getVideosByCategoryAndUser() {
+    public function getVideosByCategoryAndUser(Request $request) {
+
+        $fields = [
+            'category_id' => 'required',
+            'user_id' => 'required',
+            'language_id' => 'required',
+        ];
+        $validator = Validator::make($request->all(), $fields);
+
+        if ($validator->fails()) {
+            return $validator->errors()->all();
+        }
+
         $category_id = Input::get('category_id');
         $user_id = Input::get('user_id');
+        $languageId = Input::get('language_id');
 
-        $sql = "SELECT v.*, (SELECT COUNT(f.id) FROM video_favorites AS f WHERE f.user_id = ? AND f.video_id = v.id) AS favorite"
+        $sql = "SELECT v.id, IFNULL(vl.title, v.title) title, IFNULL(vl.description, v.description) description, "
+            ." v.user_id, v.category_id, v.video_name, v.video_size, v.thumbnail, v.thumbnail_url, v.video, v.video_url, "
+            ." v.ordering, v.completed_date, v.created_at, v.updated_at, v.visibility, "
+            ." (SELECT COUNT(f.id) FROM video_favorites AS f WHERE f.user_id = :user_id AND f.video_id = v.id) AS favorite"
             . " FROM videos AS v"
             . " LEFT JOIN video_categories AS c ON c.id = v.category_id"
-            . " WHERE v.visibility=1 AND v.category_id = ?";
-        $rows = DB::select($sql, [$user_id, $category_id]);
+            . " LEFT JOIN video_languages vl  ON v.id = vl.video_id and vl.language_id= :lang "
+            . " WHERE v.visibility=1 AND v.category_id = :category_id";
+        $rows = DB::select($sql, [
+            'user_id' => $user_id,
+            'category_id' => $category_id,
+            'lang' => $languageId
+        ]);
 
         return response()->json($rows);
     }

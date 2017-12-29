@@ -15,17 +15,40 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
 use App\Models\Backend\QrCode;
+use Illuminate\Support\Facades\DB;
+
 
 class EventController extends Controller
 {
     /**
      * Show events
      */
-    public function getEvents()
+    public function getEvents(Request $request)
     {
         $data = [];
+        $fields = [
+            'language_id' => 'required',
+        ];
+        $validator = Validator::make($request->all(), $fields);
 
-        $events = Event::where('is_active', '=', 1)->get();
+        if ($validator->fails()) {
+            return $validator->errors()->all();
+        }
+
+        $languageId = Input::get('language_id');
+        if ($languageId) {
+            $sql = "SELECT e.id, IFNULL(el.name, e.name) name, IFNULL(el.description, e.description) description, e.thumbnail_url, e.thumbnail,"
+                ." IFNULL(el.title, e.title) title, IFNULL(el.subtitle, e.subtitle) subtitle, "
+                ." e.price, e.time_start, e.time_length, e.created_at, e.updated_at, e.is_active, e.background_img, e.background_img_url "
+                . " FROM events as e"
+                . " LEFT JOIN event_languages as el ON e.id = el.event_id and el.language_id =:lang "
+                . " WHERE is_active = 1";
+            $query =DB::raw($sql);
+            $events = DB::select($query,['lang' =>$languageId]);
+        } else {
+            $events = Event::where('is_active', '=', 1)->get();
+        }
+
         $data['data'] = $events;
 
         return response()->json($events);

@@ -18,11 +18,10 @@ class VideoCategoryController extends Controller {
         if ($languageId) {
             $sql = "SELECT vc.id, IFNULL(vcl.name, vc.name) name, IFNULL(vcl.description, vc.description) description, vc.thumbnail_url, vc.thumbnail, vc.slug"
                 . " FROM video_categories as vc"
-                . " LEFT JOIN video_category_languages as vcl ON vc.id = vcl.video_category_id and vcl.language_id =?";
+                . " LEFT JOIN video_category_languages as vcl ON vc.id = vcl.video_category_id and vcl.language_id = :lang ";
 
-            $categories = DB::select(
-                DB::raw($sql,$languageId)
-            );
+            $query =DB::raw($sql);
+            $categories = DB::select($query,['lang' =>$languageId]);
         } else {
             $languages = Language::where('is_default', 0)->get();
             $categories = VideoCategory::orderBy('ordering', 'asc')
