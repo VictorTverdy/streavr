@@ -298,7 +298,16 @@ return [
                     'hidden' => 0,
                     'user_level' => [1],
                     'children' => []
-                ]
+                ],
+                [
+                'id' => 'Localization_setting',
+                'name' => 'Localization variables',
+                'url' => '/settings/variables',
+                'icon' => '',
+                'hidden' => 0,
+                'user_level' => [1],
+                'children' => []
+            ]
 
 
 

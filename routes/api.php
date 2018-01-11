@@ -54,3 +54,6 @@ Route::post('event/check_code', 'Api\EventController@checkCode');
 
 // Get all languages
 Route::get('language/get_languages', 'Api\LanguageController@getLanguages');
+
+// Get all variables
+Route::get('settings/get_variables', 'Api\VariableController@getVariables');

@@ -123,6 +123,19 @@ Route::middleware(['auth'])->group(function () {
     Route::post('settings/language/save', 'Backend\LanguageController@saveLanguage');
 
 
+    /**
+     * Variable
+     */
+    Route::get('settings/variables', 'Backend\VariableController@showVariables');
+    Route::get('settings/variable/new', 'Backend\VariableController@newVariable');
+    Route::get('settings/variable/edit/{id}', 'Backend\VariableController@editVariable')->where('id', '[0-9]+');
+    Route::post('settings/variable/save', 'Backend\VariableController@saveVariable');
+    Route::post('settings/variable/delete/{id}', 'Backend\VariableController@deleteVariable')->where('id', '[0-9]+');
+    Route::get('settings/variable/get_variables', 'Backend\VariableController@getVariables');
+    Route::get('settings/variable/language/{id}', 'Backend\VariableController@editVariableLanguage')->where('id', '[0-9]+');
+    Route::post('settings/variable/language/save', 'Backend\VariableController@saveVariableLanguage');
+
+
 });
 
 

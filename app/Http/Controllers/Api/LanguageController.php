@@ -14,8 +14,8 @@ class LanguageController extends Controller {
     public function getLanguages() {
         $data = [];
 
-        $categories = Language::get();
+        $languages = Language::get();
 
-        return response()->json($categories);
+        return response()->json($languages);
     }
 }
