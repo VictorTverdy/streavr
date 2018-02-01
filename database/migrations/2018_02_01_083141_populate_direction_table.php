@@ -3,8 +3,9 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use App\Models\Backend\Direction;
 
-class CreateVariableTable extends Migration
+class PopulateDirectionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +14,16 @@ class CreateVariableTable extends Migration
      */
     public function up()
     {
-        Schema::create('variables', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name')->unique();
-            $table->text('description');
-            $table->timestamps();
-        });
+        $dir = new Direction();
+        $dir->id = 1;
+        $dir->name = 'Left';
+        $dir->save();
+
+        $dir = new Direction();
+        $dir->id = 2;
+        $dir->name = 'Right';
+        $dir->save();
+
     }
 
     /**
@@ -28,6 +33,6 @@ class CreateVariableTable extends Migration
      */
     public function down()
     {
-        Schema::drop('variables');
+        Direction::truncate();
     }
 }

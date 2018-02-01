@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateVariableTable extends Migration
+class CreateDirectionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateVariableTable extends Migration
      */
     public function up()
     {
-        Schema::create('variables', function (Blueprint $table) {
+        Schema::create('directions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
-            $table->text('description');
             $table->timestamps();
         });
+
     }
 
     /**
@@ -28,6 +28,6 @@ class CreateVariableTable extends Migration
      */
     public function down()
     {
-        Schema::drop('variables');
+        Schema::drop('directions');
     }
 }

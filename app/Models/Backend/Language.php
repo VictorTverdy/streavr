@@ -26,4 +26,10 @@ class Language extends Model
      * @var bool
      */
     public $timestamps = true;
+
+    public function direction()
+    {
+        return $this->hasOne('App\Models\Backend\Direction','id','direction_id');
+    }
+
 }
