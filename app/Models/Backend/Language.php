@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $thumbnail
  * @property string thumbnail_url
  * @property boolean is_default
+ * @property boolean direction_id
  * */
 
 class Language extends Model

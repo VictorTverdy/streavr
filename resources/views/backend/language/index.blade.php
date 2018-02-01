@@ -37,6 +37,7 @@
                         <th width="5%">Key</th>
                         <th width="5%">Default</th>
                         <th>Name</th>
+                        <th>Direction</th>
                         <th width="5%"></th>
                     </tr>
                     </thead>
@@ -50,6 +51,7 @@
                                 @endif
                             </td>
                             <td>{{$language->name}}</td>
+                            <td>{{$language->direction->name}}</td>
                             <td><a href="/settings/language/edit/{{$language->id}}" class="btn btn-xs blue edit-butt"><i class="fa fa-edit"></i> Edit</a></td>
                         </tr>
                     @endforeach

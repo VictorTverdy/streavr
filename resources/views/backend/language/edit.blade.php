@@ -79,6 +79,14 @@ $auth_user = \Illuminate\Support\Facades\Auth::user();
                                     <input type="text" name="name" class="form-control" value="{{ $language->name }}" />
                                 </div>
                                 <div class="form-group">
+                                    <label class="control-label">Direction</label>
+                                        <select class="form-control" name="direction_id">
+                                            @foreach($directions as $direction)
+                                                <option value="{{$direction->id}}" @if ($language->direction_id == $direction->id) selected @endif>{{$direction->name}}</option>
+                                            @endforeach
+                                        </select>
+                                </div>
+                                <div class="form-group">
                                     <label class="control-label" style="display: block;">Language thumbnail</label>
                                     <div class="fileinput fileinput-new" data-provides="fileinput">
                                         <div class="fileinput-new thumbnail" style="max-width: 250px;">

@@ -10,6 +10,7 @@ use Validator;
 use Illuminate\Support\Facades\Input;
 use Intervention\Image\ImageManager as Image;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Backend\Direction;
 
 class LanguageController extends Controller
 {
@@ -31,9 +32,11 @@ class LanguageController extends Controller
     {
         // Get language
         $language = Language::find($id);
+        $directions = Direction::get();
 
         return view('backend.language.edit', [
-            'language' => $language
+            'language' => $language,
+            'directions' => $directions
         ]);
     }
 
@@ -44,7 +47,8 @@ class LanguageController extends Controller
         $user = Auth::user();
 
         $fields = [
-            'name' => 'required'
+            'name' => 'required',
+            'direction_id' => 'required',
         ];
 
         $validator = Validator::make($request->all(), $fields);
@@ -57,6 +61,8 @@ class LanguageController extends Controller
         $id = Input::get('id', 0);
         $languageClass = Language::find($id);
         $languageClass->updated_at = time();
+        $languageClass->name = Input::get('name');;
+        $languageClass->direction_id = Input::get('direction_id');;
 
         // Save thumbnail
         if ($request->file('thumbnail')) {
